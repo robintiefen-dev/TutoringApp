@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ ta.user.username }} - Tutor Profile</title>
+    </head>
+    <body>
+        <h1>{{ ta.user.username }}</h1>
+            <h2>Courses Available for Tutoring</h2>
+            <ul>
+                {% for course in courses %}
+                    <li>{{ course.code }}</li>
+                {% empty %}
+                    <li>No courses listed yet.</li>
+                {% endfor %}
+            </ul>
+    </body>
+</html>

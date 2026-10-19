@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Computer Science Tutoring</title>
+    </head>
+    <body>
+        <h1>Computer Science Tutoring</h1>
+        <h2>Teaching Assistants</h2>
+        <ul>
+            {% for ta in tas %}
+                <li>
+                    <a href="{% url 'ta_detail' ta.pk %}">
+                        {{ ta.user.username }}
+                </a>
+            </li>
+            {% empty %}
+                <li>No TAs listed yet.</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        <title>TA Signup</title>
+
+    </head>
+    <body>
+        <h1>TA Registration Form</h1>
+        <p>Register for a tutoring account after approval of position.</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">
+                Sign Up
+            </button>
+        </form>
+        <p>Create Your Account. TA access granted upon approval.</p>
+    </body>
+</html>
