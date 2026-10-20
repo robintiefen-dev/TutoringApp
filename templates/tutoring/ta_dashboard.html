@@ -1,0 +1,101 @@
+
+{% extends "base.html" %}
+
+{% block title %}TA Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <h2 class="mb-3">TA Dashboard</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h4>Welcome, {{ ta.user.username }}!</h4>
+            <p class="text-muted">
+                Manage your tutoring availability here.
+            </p>
+
+            <h5 class="mt-4">Your Tutoring Hours</h5>
+
+            {% if tutoring_hours %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hour in tutoring_hours %}
+                        <tr>
+                            <td>
+                                {% if hour.weekday %}
+                                    {{ hour.weekday }}
+                                {% else %}
+                                    {{ hour.date }}
+                                {% endif %}
+                            </td>
+                            <td>{{ hour.start_time|time:"g:i A" }}</td>
+                            <td>{{ hour.end_time|time:"g:i A" }}</td>        
+                            
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <a href="{% url 'edit_tutoring_hour' hour.pk %}"
+                                    class="btn btn-outline-primary btn-sm"
+                                    style="width: 75px;">
+                                        Edit
+                                    </a>
+
+                                    <form method="post"
+                                        action="{% url 'delete_tutoring_hour' hour.pk %}"
+                                        class="m-0"
+                                        onsubmit="return confirm('Are you sure you want to delete these tutoring hours?');">
+
+                                        {% csrf_token %}
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                style="width: 75px;">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You haven't added any tutoring hours yet.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+    <!-- Add Tutoring Hours -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h4 class="mb-3">Add Tutoring Hours</h4>
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">
+                    Save Tutoring Hours
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

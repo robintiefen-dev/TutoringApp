@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit Tutoring Hours{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h2 class="mb-3">Edit Tutoring Hours</h2>
+
+                    <p class="text-muted">
+                        Update your tutoring availability below.
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {{ form.as_p }}
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Save Changes
+                        </button>
+
+                        <a href="{% url 'ta_dashboard' %}"
+                           class="btn btn-secondary">
+                            Cancel
+                        </a>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
