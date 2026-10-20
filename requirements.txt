@@ -1,0 +1,13 @@
+asgiref==3.12.1
+black==26.10.1
+click==8.5.0
+crispy-bootstrap5==2026.9
+Django==6.1.2
+django-crispy-forms==2.7
+mypy_extensions==1.1.0
+packaging==26.3
+pathspec==1.1.1
+platformdirs==4.13.4
+pytokens==0.4.1
+sqlparse==0.6.0
+tzdata==2026.5
