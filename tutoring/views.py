@@ -48,12 +48,15 @@ def ta_detail(request, pk):
     ta = get_object_or_404(TAProfile, pk=pk)
     courses = ta.courses.all()
 
+    tutoring_hours = TutoringHour.objects.filter(ta=ta).order_by("start_time")
+
     return render(
         request,
         "tutoring/ta_detail.html",
         {
             "ta": ta,
             "courses": courses,
+            "tutoring_hours": tutoring_hours,
         },
     )
 
