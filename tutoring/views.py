@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
-from .models import TAProfile, TutoringHour
+from .models import TAProfile, TutoringHour, Course
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TASignUpForm
@@ -70,6 +70,28 @@ def home(request):
         "tutoring/home.html",
         {
             "tas": tas,
+            "tutoring_hours": tutoring_hours,
+        },
+    )
+
+
+@login_required
+def staff_dashboard(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+
+    tas = TAProfile.objects.filter(user__is_active=True).prefetch_related("courses")
+
+    courses = Course.objects.all()
+
+    tutoring_hours = TutoringHour.objects.count()
+
+    return render(
+        request,
+        "tutoring/staff_dashboard.html",
+        {
+            "tas": tas,
+            "courses": courses,
             "tutoring_hours": tutoring_hours,
         },
     )

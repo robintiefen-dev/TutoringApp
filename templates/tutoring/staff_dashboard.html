@@ -1,0 +1,97 @@
+
+{% extends "base.html" %}
+
+{% block title %}Administrator Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Administrator Dashboard</h1>
+        <a href="{% url 'admin:index' %}" class="btn btn-primary">
+            Open Django Admin
+        </a>
+    </div>
+
+    <!-- Dashboard Statistics -->
+    <div class="row g-3 mb-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h2>{{ tas.count }}</h2>
+                    <p class="text-muted mb-0">Active Tutors</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h2>{{ courses.count }}</h2>
+                    <p class="text-muted mb-0">Courses</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h2>{{ tutoring_hours }}</h2>
+                    <p class="text-muted mb-0">Tutoring Hour Entries</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teaching Assistants -->
+    <h2 class="h4 mb-3">Active Teaching Assistants</h2>
+
+    <div class="table-responsive mb-5">
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Courses</th>
+                    <th scope="col">Profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ta in tas %}
+                <tr>
+                    <td>{{ ta.user.username }}</td>
+                    <td>
+                        {% for course in ta.courses.all %}
+                            {{ course.code }}{% if not forloop.last %}, {% endif %}
+                        {% empty %}
+                            No courses assigned
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'ta_detail' ta.pk %}"
+                           class="btn btn-sm btn-outline-primary">
+                            View Profile
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No active tutors found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Available Courses -->
+    <h2 class="h4 mb-3">Available Courses</h2>
+
+    <ul class="list-group mb-4">
+        {% for course in courses %}
+            <li class="list-group-item">{{ course.code }}</li>
+        {% empty %}
+            <li class="list-group-item">No courses available.</li>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock %}
