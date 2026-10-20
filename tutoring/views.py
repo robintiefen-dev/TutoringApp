@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
-from .models import TAProfile
+from .models import TAProfile, TutoringHour
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TASignUpForm
@@ -13,8 +13,20 @@ def is_ta(user):
 
 @login_required
 def ta_dashboard(request):
-    if not TAProfile.objects.filter(user=request.user).exists():
+    if not request.user.is_staff:
         raise PermissionDenied
+    ta = get_object_or_404(TAProfile, user=request.user)
+
+    tutoring_hours = TutoringHour.objects.filter(ta=ta)
+
+    return render(
+        request,
+        "tutoring/ta_dashboard.html",
+        {
+            "ta": ta,
+            "tutoring_hours": tutoring_hours,
+        },
+    )
 
     return HttpResponse("TA Dashboard")
 
@@ -48,5 +60,13 @@ def ta_detail(request, pk):
 
 def home(request):
     tas = TAProfile.objects.all()
+    tutoring_hours = TutoringHour.objects.select_related("ta", "ta__user").all()
 
-    return render(request, "tutoring/home.html", {"tas": tas})
+    return render(
+        request,
+        "tutoring/home.html",
+        {
+            "tas": tas,
+            "tutoring_hours": tutoring_hours,
+        },
+    )
