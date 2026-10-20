@@ -46,6 +46,7 @@
             <thead class="table-primary">
                 <tr>
                     <th scope="col">Teaching Assistant</th>
+                    <th scope="col">Course</th>
                     <th scope="col">Day / Date</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">End Time</th>
@@ -56,6 +57,14 @@
                 {% for hour in tutoring_hours %}
                     <tr>
                         <td>{{ hour.ta.user.username }}</td>
+                        
+                        <td>
+                            {% for course in hour.ta.courses.all %}
+                                {{ course.code }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No courses listed
+                            {% endfor %}
+                        </td>
 
                         <td>
                             {% if hour.date %}
@@ -70,7 +79,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="5" class="text-center">
                             No tutoring hours are currently listed.
                         </td>
                     </tr>
