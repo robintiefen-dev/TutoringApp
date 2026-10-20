@@ -1,23 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Computer Science Tutoring</title>
-    </head>
-    <body>
-        <h1>Computer Science Tutoring</h1>
-        <h2>Teaching Assistants</h2>
-        <ul>
-            {% for ta in tas %}
-                <li>
-                    <a href="{% url 'ta_detail' ta.pk %}">
-                        {{ ta.user.username }}
-                </a>
-            </li>
-            {% empty %}
-                <li>No TAs listed yet.</li>
-            {% endfor %}
-        </ul>
-    </body>
-</html>
+
+{% extends "base.html" %}
+
+{% block title %}Computer Science Tutoring{% endblock %}
+
+{% block content %}
+
+<section class="container text-center py-5">
+    <h1 class="display-5 fw-bold">
+        Computer Science Tutors
+    </h1>
+    <p class="lead text-muted mt-3">
+        Connect with your teaching assistants and book a tutoring session.
+    </p>
+</section>
+
+<section id="teaching-assistants" class="container my-5">
+    <h2 class="mb-4">Meet Your Teaching Assistants!</h2>
+
+    <div class="row g-4">
+        {% for ta in tas %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ ta.user.username }}
+                        </h5>
+
+                        <a href="{% url 'ta_detail' ta.pk %}"
+                           class="btn btn-primary">
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No TAs listed yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

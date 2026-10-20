@@ -1,35 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-    <title>TA Login</title>
-</head>
-<body>
 
-    <h1>TA Login</h1>
+{% extends "base.html" %}
 
-    {% if user.is_authenticated %}
+{% block title %}TA Login{% endblock %}
 
-        <p>Hello, {{ user.username }}!</p>
-        <p>You are successfully logged in.</p>
+{% block content %}
 
-    {% else %}
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
 
-        <p>Please log in to continue.</p>
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
 
-    {% if form.errors %}
-        <p>Invalid username or password.</p>
-    {% endif %}
+                    <h2 class="text-center mb-4">TA Login</h2>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+                    {% if user.is_authenticated %}
 
-        <button type="submit">Log In</button>
-    </form>
-{% endif %}
+                        <p>Hello, {{ user.username }}!</p>
+                        <p>You are successfully logged in.</p>
 
-</body>
-</html>
+                    {% else %}
+
+                        <p class="text-center text-muted">
+                            Please log in to continue.
+                        </p>
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                Invalid username or password.
+                            </div>
+                        {% endif %}
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            {{ form.as_p }}
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100 mt-3">
+                                Log In
+                            </button>
+                        </form>
+
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

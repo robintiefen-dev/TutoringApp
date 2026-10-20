@@ -1,19 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ ta.user.username }} - Tutor Profile</title>
-    </head>
-    <body>
-        <h1>{{ ta.user.username }}</h1>
-            <h2>Courses Available for Tutoring</h2>
-            <ul>
+{% extends "base.html" %}
+{% block title %}{{ ta.user.username }} - Tutor Profile{% endblock %}
+{% block content %}
+
+<section class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <h1 class="card-title mb-4">
+                {{ ta.user.username }}
+            </h1>
+
+            <h3>Courses Available for Tutoring</h3>
+
+            <ul class="list-group list-group-flush">
                 {% for course in courses %}
-                    <li>{{ course.code }}</li>
-                {% empty %}
-                    <li>No courses listed yet.</li>
-                {% endfor %}
-            </ul>
-    </body>
-</html>
+                    <li class="list-group-item">
+                        {{ course.code }}
+                    </li>
+                    {% empty %}
+                        <li class="list-group-item">
+                            No courses listed yet.
+                        </li>
+                    {% endfor %}
+                    </ul>
+
+                    <a href="{% url 'home' %}"
+                        class="btn btn-outline-primary mt-4">
+                        Back to tutors!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {% endblock %}
